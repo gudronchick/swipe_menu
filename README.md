@@ -1,2 +1,2 @@
 # swipe_menu
-Swipe menu (Vanill JS)
+Swipe menu (Vanilla JS)
