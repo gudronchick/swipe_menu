@@ -30,6 +30,7 @@ a {
   position: fixed;
   transform: translateX(-101%);
   pointer-events: none;
+  transition: transform 0;
 }
 
 ul {
@@ -62,24 +63,12 @@ ul li:nth-of-type(1) {
   top: 10px;
   padding: 10px;
   color: rgb(59, 59, 59);
+  user-select: none;
 }
 
-/* Unneeded */
-section,
-.container {
-  height: 100vh;
-}
-
-section:first-of-type {
-  background: rgb(218, 255, 210);
-}
-
-section:nth-of-type(2) {
-  background: rgb(255, 182, 219);
-}
-
-.container {
-  background: rgb(254, 255, 216);
+.active {
+  transition: transform .2s ease-in;
+  pointer-events: all;
 }
 
 @media screen and (max-width: 768px) {

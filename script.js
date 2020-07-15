@@ -1,44 +1,43 @@
-const menu = document.querySelector('.menu');
-const menuWidth = menu.clientWidth;
-let isPressed = false;
+let menu = document.querySelector('.menu');
+let isPressed = null;
 let distanceToEdge = 0;
+let isMoved = null;
 
-const closeMenu = () => {
-  menu.style.transform = `translateX(${-100}%)`;
-};
 
 const startSwipe = (e) => {
-  if (e.target.classList.contains('menu__item') || e.target.classList.contains('close_btn') || !e.target.classList.contains('menu')) {
-    closeMenu();
+  if (e.target.classList.contains('menu__item') ||
+    e.target.classList.contains('close_btn') ||
+    !e.target.classList.contains('menu')) {
+    menu.style.transform = `translateX(${-101}%)`;
   }
   isPressed = true;
   distanceToEdge = e.pageX;
 };
 
-const moveSwipe = (e) => {
+let moveSwipe = (e) => {
+  let distance = 0;
   if (isPressed && distanceToEdge <= 30) {
-    let distance = 0;
-    if (e.pageX >= 100) {
-      distance = 0;
-      menu.style.transition = 'transform .2s ease-in';
-      menu.style.setProperty('pointer-events', 'all');
-    } else {
-      distance = -100 + (e.pageX - distanceToEdge) * 100 / menuWidth;
-      menu.style.setProperty('pointer-events', 'none');
-      menu.style.transition = '';
-      closeMenu()
+    if (e.pageX <= menu.clientWidth) {
+      isMoved = true;
+      menu.classList.remove('active');
+      distance = -100 + (e.pageX - distanceToEdge) * 100 / menu.clientWidth;
     }
-
     menu.style.transform = `translateX(${distance}%)`;
+    distance = null;
   }
 };
 
 const endSwipe = (e) => {
-  isPressed = false;
-  if (e.pageX < 100) {
-    menu.style.transition = 'transform .2s ease-in';
-    closeMenu()
+  isPressed = null;
+  distanceToEdge = null;
+  menu.classList.add('active');
+  if (e.pageX >= 50 && isMoved) {
+    menu.style.transform = `translateX(${0}%)`;
+    isMoved = null;
+  } else {
+    menu.style.transform = `translateX(${-101}%)`;
   }
+  isMoved = null;
 }
 
 document.addEventListener('pointerdown', startSwipe);
